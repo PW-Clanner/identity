@@ -4,6 +4,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{570EBFD7-511
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{97EA57AB-0D87-465E-8537-84AFE6484196}"
 	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Dockerfile = Dockerfile
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
