@@ -1,0 +1,6 @@
+﻿services:
+  pw.clanner.identity.web:
+    image: pw.clanner.identity.web
+    build:
+      context: .
+      dockerfile: src/Pw.Clanner.Identity.Web/Dockerfile

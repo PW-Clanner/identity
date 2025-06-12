@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{570EBFD7-511B-4891-9CD8-8BFE9C771A4E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{97EA57AB-0D87-465E-8537-84AFE6484196}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DD8851DB-EF33-4372-B6C3-6EE708F6EA8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.UnitTests", "tests\Pw.Clanner.Identity.UnitTests\Pw.Clanner.Identity.UnitTests.csproj", "{428BDCA2-6242-4AA1-9667-9125D0374ADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.Domain", "src\Pw.Clanner.Identity.Domain\Pw.Clanner.Identity.Domain.csproj", "{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.Web", "src\Pw.Clanner.Identity.Web\Pw.Clanner.Identity.Web.csproj", "{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{428BDCA2-6242-4AA1-9667-9125D0374ADC} = {DD8851DB-EF33-4372-B6C3-6EE708F6EA8D}
+		{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB} = {570EBFD7-511B-4891-9CD8-8BFE9C771A4E}
+		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8} = {570EBFD7-511B-4891-9CD8-8BFE9C771A4E}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{428BDCA2-6242-4AA1-9667-9125D0374ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{428BDCA2-6242-4AA1-9667-9125D0374ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{428BDCA2-6242-4AA1-9667-9125D0374ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{428BDCA2-6242-4AA1-9667-9125D0374ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
