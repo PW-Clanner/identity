@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  SERVICE_NAME: ${{ github.repository }}
+  SERVICE_NAME: ${{ github.event.repository.name }}
   SERVICE_NAMESPACE: pw-clanner
 
 jobs:
