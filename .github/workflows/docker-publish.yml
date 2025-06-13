@@ -94,6 +94,13 @@ jobs:
           files: 'deployment.yml'
           search-text: '{IMAGE}'
           replacement-text: ${{ env.SERVICE_NAME }}
+
+      - name: Replace namespace
+        uses: richardrigutins/replace-in-files@v2
+        with:
+          files: 'deployment.yml'
+          search-text: '{NAMESPACE}'
+          replacement-text: ${{ env.SERVICE_NAMESPACE }}
           
       - name: Deploy to Kubernetes
         run: |
