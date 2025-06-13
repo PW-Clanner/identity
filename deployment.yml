@@ -1,0 +1,71 @@
+﻿---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {SERVICE}-service
+  namespace: {NAMESPACE}
+spec:
+  selector:
+    app: {SERVICE}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {SERVICE}-ingress
+  namespace: {NAMESPACE}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: '{SERVICE}.clanner.pw'
+      http:
+        paths:
+          - backend:
+              service:
+                name: {SERVICE}-service
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {SERVICE}
+  namespace: {NAMESPACE}
+  labels:
+    app: {SERVICE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {SERVICE}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: {SERVICE}
+      labels:
+        app: {SERVICE}
+    spec:
+      containers:
+        - name: {SERVICE}
+          image: ghcr.io/pw-clanner/{SERVICE}:{TAG}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 3000
+          resources:
+            requests:
+              memory: 32Mi
+              cpu: 60m
+      restartPolicy: Always
