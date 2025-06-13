@@ -93,7 +93,7 @@ jobs:
         uses: richardrigutins/replace-in-files@v2
         with:
           files: 'deployment.yml'
-          search-text: '{IMAGE}'
+          search-text: '{SERVICE}'
           replacement-text: ${{ env.SERVICE_NAME }}
 
       - name: Replace namespace
