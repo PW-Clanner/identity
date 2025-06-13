@@ -1,7 +1,11 @@
 using System.Text.Json.Serialization;
+using Duende.IdentityServer.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Pw.Clanner.Identity.Storage;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
@@ -10,6 +14,35 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
 });
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PwClanner")));
+
+builder.Services
+    .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddIdentityServer(options => { })
+    .AddInMemoryClients([
+        new Client
+        {
+            ClientId = "client",
+            ClientSecrets = new List<Secret> { new("test") },
+            AllowedGrantTypes = GrantTypes.Code,
+            RedirectUris = { "https://oidcdebugger.com/debug" },
+            PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+            FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
+            AllowedScopes = { "openid", "profile", "email", "phone" }
+        }
+    ])
+    .AddInMemoryIdentityResources([
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile(),
+        new IdentityResources.Email(),
+        new IdentityResources.Phone(),
+    ])
+    .AddAspNetIdentity<IdentityUser>();
+
+builder.Services.AddLogging(options => { options.AddFilter("Duende", LogLevel.Debug); });
 
 var useOtlp = builder.Configuration.GetValue<bool>("App:Jaeger:Enabled");
 
@@ -41,6 +74,20 @@ if (useOtlp)
 }
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseIdentityServer();
+app.UseAuthorization();
 
 var sampleTodos = new Todo[]
 {
