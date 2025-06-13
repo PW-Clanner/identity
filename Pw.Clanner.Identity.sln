@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution 
 		README.md = README.md
 		Dockerfile = Dockerfile
 		docker-compose.yml = docker-compose.yml
+		deployment.yml = deployment.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DD8851DB-EF33-4372-B6C3-6EE708F6EA8D}"
