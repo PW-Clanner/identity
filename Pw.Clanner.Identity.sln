@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.Domain"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.Web", "src\Pw.Clanner.Identity.Web\Pw.Clanner.Identity.Web.csproj", "{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.Storage", "src\Pw.Clanner.Identity.Storage\Pw.Clanner.Identity.Storage.csproj", "{E1FD2052-1214-4837-A77E-78A265377FD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,7 @@ Global
 		{428BDCA2-6242-4AA1-9667-9125D0374ADC} = {DD8851DB-EF33-4372-B6C3-6EE708F6EA8D}
 		{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB} = {570EBFD7-511B-4891-9CD8-8BFE9C771A4E}
 		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8} = {570EBFD7-511B-4891-9CD8-8BFE9C771A4E}
+		{E1FD2052-1214-4837-A77E-78A265377FD7} = {570EBFD7-511B-4891-9CD8-8BFE9C771A4E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{428BDCA2-6242-4AA1-9667-9125D0374ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -41,5 +44,9 @@ Global
 		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1FD2052-1214-4837-A77E-78A265377FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1FD2052-1214-4837-A77E-78A265377FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1FD2052-1214-4837-A77E-78A265377FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1FD2052-1214-4837-A77E-78A265377FD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
