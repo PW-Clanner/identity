@@ -1,15 +1,27 @@
-using System.Text.Json.Serialization;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Pw.Clanner.Identity;
+using Pw.Clanner.Identity.Web;
 
-var builder = WebApplication.CreateSlimBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.ConfigureHttpJsonOptions(options =>
+builder.Services.AddControllers(options =>
 {
-    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
+    options.Filters.Add<ApiFilter>();
 });
+builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddProblemDetails();
+
+builder.Services.AddHealthChecks();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
 
 var useOtlp = builder.Configuration.GetValue<bool>("App:Jaeger:Enabled");
 
@@ -41,28 +53,14 @@ if (useOtlp)
 }
 
 var app = builder.Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-var sampleTodos = new Todo[]
+app.MapControllers();
+
+if (app.Environment.IsDevelopment())
 {
-    new(1, "Walk the dog"),
-    new(2, "Do the dishes", DateOnly.FromDateTime(DateTime.Now)),
-    new(3, "Do the laundry", DateOnly.FromDateTime(DateTime.Now.AddDays(1))),
-    new(4, "Clean the bathroom"),
-    new(5, "Clean the car", DateOnly.FromDateTime(DateTime.Now.AddDays(2)))
-};
-
-var todosApi = app.MapGroup("/todos");
-todosApi.MapGet("/", () => sampleTodos);
-todosApi.MapGet("/{id}", (int id) =>
-    sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
-        ? Results.Ok(todo)
-        : Results.NotFound());
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.Run();
-
-public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
-
-[JsonSerializable(typeof(Todo[]))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext
-{
-}

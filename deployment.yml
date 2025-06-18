@@ -1,5 +1,4 @@
-﻿---
-apiVersion: v1
+﻿apiVersion: v1
 kind: Service
 metadata:
   name: {SERVICE}-service
@@ -10,27 +9,32 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
-  type: NodePort
+      targetPort: 5000
+  type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {SERVICE}-ingress
   namespace: {NAMESPACE}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
-  ingressClassName: nginx
   rules:
-    - host: '{SERVICE}.clanner.pw'
+    - host: {SERVICE}.clanner.pw
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: {SERVICE}-service
                 port:
                   number: 80
-            path: /
-            pathType: Prefix
+  tls:
+    - hosts:
+        - {SERVICE}.clanner.pw
+      secretName: {SERVICE}-tls
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -60,12 +64,16 @@ spec:
           image: ghcr.io/pw-clanner/{SERVICE}:{TAG}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
-          securityContext:
-            runAsUser: 1001
-            runAsGroup: 3000
+            - containerPort: 5000
           resources:
             requests:
               memory: 32Mi
               cpu: 60m
+          env:
+            - name: ASPNETCORE_App__DbConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: {SERVICE}-secrets
+                  key: App_DbConnectionString
+                
       restartPolicy: Always
