@@ -68,7 +68,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         CancellationToken cancellationToken)
     {
         return !await _dbContext.Users
-            .Where(x => x.Email != email)
+            .Where(x => x.Email == email)
             .AnyAsync(cancellationToken);
     }
 }
