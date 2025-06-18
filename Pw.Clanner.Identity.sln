@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DD8851DB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.UnitTests", "tests\Pw.Clanner.Identity.UnitTests\Pw.Clanner.Identity.UnitTests.csproj", "{428BDCA2-6242-4AA1-9667-9125D0374ADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.Domain", "src\Pw.Clanner.Identity.Domain\Pw.Clanner.Identity.Domain.csproj", "{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity", "src\Pw.Clanner.Identity\Pw.Clanner.Identity.csproj", "{A39601A0-8C6A-49CD-95ED-3D7604AF0CDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pw.Clanner.Identity.Web", "src\Pw.Clanner.Identity.Web\Pw.Clanner.Identity.Web.csproj", "{EEF0148C-3B50-4E91-B2C6-C7EF45BDBBD8}"
 EndProject
