@@ -70,7 +70,7 @@ spec:
               memory: 32Mi
               cpu: 60m
           env:
-            - name: ASPNETCORE_App__DbConnectionString
+            - name: ENV_App__DbConnectionString
               valueFrom:
                 secretKeyRef:
                   name: {SERVICE}-secrets
