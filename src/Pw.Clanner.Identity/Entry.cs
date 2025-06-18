@@ -26,7 +26,7 @@ public static class Entry
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("App")));
+            options.UseNpgsql(configuration["App:DbConnectionString"]));
 
         return services;
     }
