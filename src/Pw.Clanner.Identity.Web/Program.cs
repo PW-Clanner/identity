@@ -6,10 +6,13 @@ using Pw.Clanner.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables("ENV_");
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiFilter>();
 });
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
@@ -23,7 +26,7 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
-var useOtlp = builder.Configuration.GetValue<bool>("App:Jaeger:Enabled");
+var useOtlp = builder.Configuration.GetValue<bool>("Jaeger:Enabled");
 
 if (useOtlp)
 {
@@ -43,13 +46,13 @@ if (useOtlp)
                 options.FilterHttpRequestMessage = message =>
                     message.RequestUri?.PathAndQuery.Contains("/health") == false;
             })
-            .AddOtlpExporter(o => { o.Endpoint = new Uri(builder.Configuration["Otlp:Endpoint"]!); })
+            .AddOtlpExporter(o => { o.Endpoint = new Uri(builder.Configuration["Jaeger:Endpoint"]!); })
         )
         .WithMetrics(opts => opts
             .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("identity"))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
-            .AddOtlpExporter(o => { o.Endpoint = new Uri(builder.Configuration["Otlp:Endpoint"]!); }));
+            .AddOtlpExporter(o => { o.Endpoint = new Uri(builder.Configuration["Jaeger:Endpoint"]!); }));
 }
 
 var app = builder.Build();
