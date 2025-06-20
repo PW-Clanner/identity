@@ -25,7 +25,7 @@ namespace Pw.Clanner.Identity.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Pw.Clanner.Identity.Domain.Entities.UserEntity", b =>
+            modelBuilder.Entity("Pw.Clanner.Identity.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");

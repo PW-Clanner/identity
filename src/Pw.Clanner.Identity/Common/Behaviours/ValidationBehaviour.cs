@@ -11,23 +11,21 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (validators.Any())
-        {
-            var context = new ValidationContext<TRequest>(request);
-            var validationTasks = validators.Select(x => x.ValidateAsync(context, cancellationToken));
+        if (!validators.Any())
+            return await next(cancellationToken);
 
-            var validationResults = await Task.WhenAll(validationTasks);
+        var context = new ValidationContext<TRequest>(request);
+        var validationTasks = validators.Select(x => x.ValidateAsync(context, cancellationToken));
 
-            var failures = validationResults
-                .SelectMany(x => x.Errors)
-                .Where(x => x != null)
-                .ToList();
+        var validationResults = await Task.WhenAll(validationTasks);
 
-            if (failures.Count > 0)
-            {
-                throw new AppValidationException(failures);
-            }
-        }
+        var failures = validationResults
+            .SelectMany(x => x.Errors)
+            .Where(x => x != null)
+            .ToList();
+
+        if (failures.Count > 0)
+            throw new AppValidationException(failures);
 
         return await next(cancellationToken);
     }
