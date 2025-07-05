@@ -6,8 +6,10 @@ namespace Pw.Clanner.Identity.Features.Users;
 public class RegisterUserCommandController : ApiControllerBase
 {
     [HttpPost("/api/users/register")]
-    public async Task<ActionResult<string>> Register([FromBody] RegisterUserCommand command)
+    public async Task<ActionResult<RegisterUserResponse>> Register([FromBody] RegisterUserCommand command)
     {
-        return await Mediatr.Send(command);
+        var result = await Mediatr.Send(command);
+
+        return Ok(new RegisterUserResponse(!string.IsNullOrWhiteSpace(result)));
     }
 }

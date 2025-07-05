@@ -29,9 +29,12 @@
       <Compile Update="Features\Users\LoginUserCommandValidator.cs">
         <DependentUpon>LoginUserCommand.cs</DependentUpon>
       </Compile>
-      <Compile Update="Features\Users\LoginUserCommandController.cs">
-        <DependentUpon>LoginUserCommand.cs</DependentUpon>
-      </Compile>
+        <Compile Update="Features\Users\LoginUserCommandController.cs">
+            <DependentUpon>LoginUserCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Users\LoginUserResponse.cs">
+            <DependentUpon>LoginUserCommand.cs</DependentUpon>
+        </Compile>
       <Compile Update="Features\Users\GetUserAuditQueryController.cs">
         <DependentUpon>GetUserAuditQuery.cs</DependentUpon>
       </Compile>
@@ -50,9 +53,12 @@
       <Compile Update="Features\Users\RegisterUserCommandHandler.cs">
         <DependentUpon>RegisterUserCommand.cs</DependentUpon>
       </Compile>
-      <Compile Update="Features\Users\RegisterUserCommandValidator.cs">
-        <DependentUpon>RegisterUserCommand.cs</DependentUpon>
-      </Compile>
+        <Compile Update="Features\Users\RegisterUserCommandValidator.cs">
+            <DependentUpon>RegisterUserCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Users\RegisterUserResponse.cs">
+            <DependentUpon>RegisterUserCommand.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>
