@@ -6,12 +6,21 @@ using Pw.Clanner.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("enableAll", cors =>
+    {
+        cors.WithOrigins(
+            "https://clanner.pw",
+            "http://localhost:5175",
+            "https://auth.clanner.pw"
+        );
+    });
+});
+
 builder.Configuration.AddEnvironmentVariables("ENV_");
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<ApiFilter>();
-});
+builder.Services.AddControllers(options => { options.Filters.Add<ApiFilter>(); });
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -57,7 +66,9 @@ if (useOtlp)
 
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+app.UseHttpsRedirection();
 
+app.UseCors("enableAll");
 app.MapControllers();
 app.UseHealthChecks("/health");
 
