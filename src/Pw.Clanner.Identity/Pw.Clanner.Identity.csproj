@@ -22,4 +22,37 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Features\Users\LoginUserCommandHandler.cs">
+        <DependentUpon>LoginUserCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\LoginUserCommandValidator.cs">
+        <DependentUpon>LoginUserCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\LoginUserCommandController.cs">
+        <DependentUpon>LoginUserCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\GetUserAuditQueryController.cs">
+        <DependentUpon>GetUserAuditQuery.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\GetUserAuditQueryHandler.cs">
+        <DependentUpon>GetUserAuditQuery.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\GetUserAuditQueryResponse.cs">
+        <DependentUpon>GetUserAuditQuery.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\GetUserAuditQueryValidator.cs">
+        <DependentUpon>GetUserAuditQuery.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\RegisterUserCommandController.cs">
+        <DependentUpon>RegisterUserCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\RegisterUserCommandHandler.cs">
+        <DependentUpon>RegisterUserCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Features\Users\RegisterUserCommandValidator.cs">
+        <DependentUpon>RegisterUserCommand.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

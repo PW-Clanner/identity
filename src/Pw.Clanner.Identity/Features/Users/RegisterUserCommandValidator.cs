@@ -1,31 +1,8 @@
 ﻿using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Pw.Clanner.Identity.Common;
-using Pw.Clanner.Identity.Domain.Entities;
 using Pw.Clanner.Identity.Infrastructure.Persistence;
 
 namespace Pw.Clanner.Identity.Features.Users;
-
-/// <summary>
-/// Запрос регистрации
-/// </summary>
-/// <param name="UserName">Имя пользователя</param>
-/// <param name="Email">Электронная почта</param>
-/// <param name="Password">Пароль</param>
-/// <param name="ConfirmPassword">Подвтерждение пароля</param>
-public record RegisterUserCommand(string UserName, string Email, string Password, string ConfirmPassword)
-    : IRequest<string>;
-
-public class RegisterUserController : ApiControllerBase
-{
-    [HttpPost("/api/users/register")]
-    public async Task<ActionResult<string>> Register([FromBody] RegisterUserCommand command)
-    {
-        return await Mediatr.Send(command);
-    }
-}
 
 public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
@@ -70,25 +47,5 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         return !await _dbContext.Users
             .Where(x => x.Email == email)
             .AnyAsync(cancellationToken);
-    }
-}
-
-internal sealed class RegisterUserCommandHandler(AppDbContext dbContext) : IRequestHandler<RegisterUserCommand, string>
-{
-    public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
-    {
-        var user = new UserEntity
-        {
-            Email = request.Email,
-            UserName = request.UserName
-        };
-
-        user.GeneratePasswordHash(request.Password);
-
-        var entity = await dbContext.Users.AddAsync(user, cancellationToken);
-
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return entity.Entity.Id;
     }
 }
