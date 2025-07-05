@@ -12,9 +12,13 @@ builder.Services.AddCors(options =>
     {
         cors.WithOrigins(
             "https://clanner.pw",
+            "http://localhost:5175/",
             "http://localhost:5175",
+            "http://localhost",
             "https://auth.clanner.pw"
-        );
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader();;
     });
 });
 
