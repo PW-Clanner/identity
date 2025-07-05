@@ -6,8 +6,10 @@ namespace Pw.Clanner.Identity.Features.Users;
 public class LoginUserCommandController : ApiControllerBase
 {
     [HttpPost("/api/users/login")]
-    public async Task<ActionResult<string>> Login([FromBody] LoginUserCommand command)
+    public async Task<ActionResult<LoginUserResponse>> Login([FromBody] LoginUserCommand command)
     {
-        return await Mediatr.Send(command);
+        var result = await Mediatr.Send(command);
+
+        return Ok(new LoginUserResponse(!string.IsNullOrWhiteSpace(result)));
     }
 }
