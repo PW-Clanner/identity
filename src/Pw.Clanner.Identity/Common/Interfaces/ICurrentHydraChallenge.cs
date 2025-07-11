@@ -5,4 +5,6 @@ public interface ICurrentHydraChallenge
     string LoginChallenge { get; }
     
     string ConsentChallenge { get; }
+
+    void StoreLoginChallenge();
 }

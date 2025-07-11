@@ -6,9 +6,11 @@ using Pw.Clanner.Identity.Infrastructure.Persistence;
 
 namespace Pw.Clanner.Identity.Features.Users;
 
-internal sealed class GetUserAuditQueryHandler(AppDbContext dbContext) : IRequestHandler<GetUserAuditQuery, PaginatedList<GetUserAuditQueryResponse>>
+internal sealed class GetUserAuditQueryHandler(AppDbContext dbContext)
+    : IRequestHandler<GetUserAuditQuery, PaginatedList<GetUserAuditQueryResponse>>
 {
-    public Task<PaginatedList<GetUserAuditQueryResponse>> Handle(GetUserAuditQuery request, CancellationToken cancellationToken)
+    public Task<PaginatedList<GetUserAuditQueryResponse>> Handle(GetUserAuditQuery request,
+        CancellationToken cancellationToken)
     {
         return dbContext.UserAudits
             .Where(item => item.User.Id == request.UserId)
