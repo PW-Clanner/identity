@@ -1,15 +1,22 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Pw.Clanner.Identity.Common;
+using Pw.Clanner.Identity.Common.Interfaces;
 using Pw.Clanner.Identity.Domain.Entities.Users;
 using Pw.Clanner.Identity.Infrastructure.Persistence;
 
 namespace Pw.Clanner.Identity.Features.Users;
 
-internal sealed class LoginUserCommandHandler(AppDbContext dbContext) : IRequestHandler<LoginUserCommand, string>
+internal sealed class LoginUserCommandHandler(
+    AppDbContext dbContext,
+    ICurrentHydraChallenge hydraChallenge,
+    ILogger<LoginUserCommandHandler> logger)
+    : IRequestHandler<LoginUserCommand, string>
 {
     public async Task<string> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
+        logger.LogInformation("hydra login_challenge = {@LoginChallenge}", hydraChallenge.LoginChallenge);
         var userName = request.UserName.ToLower();
         var user = await dbContext.Users
             .Where(x => x.UserName.ToLower() == userName)
@@ -24,7 +31,7 @@ internal sealed class LoginUserCommandHandler(AppDbContext dbContext) : IRequest
         var result = user.VerifyPasswordHash(request.Password);
 
         user.DomainEvents.Add(result ? new UserAuthenticatedEvent(user) : new UserIncorrectPasswordEvent(user));
-        
+
         if (result)
             user.DomainEvents.Add(new UserAuthorizedEvent(user));
 
