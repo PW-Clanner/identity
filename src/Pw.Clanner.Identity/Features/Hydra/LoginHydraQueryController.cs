@@ -11,7 +11,9 @@ public class LoginHydraQueryController(ICurrentHydraChallenge hydraChallenge, IL
     [HttpGet("/hydra/login")]
     public async Task<ActionResult> GetUserAudit()
     {
-        logger.LogInformation("HYDRA REQUEST {LoginChallenge}", hydraChallenge.LoginChallenge);
+        var query = HttpContext.Request.Query["consent_challenge"];
+        hydraChallenge.LoginChallenge = query;
+
         return Redirect("https://auth.clanner.pw");
     }
 }

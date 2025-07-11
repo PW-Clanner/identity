@@ -9,42 +9,18 @@ public class CurrentHydraChallenge(IHttpContextAccessor httpContextAccessor, ILo
 {
     public string LoginChallenge
     {
-        get
-        {
-            var query = httpContextAccessor.HttpContext?.Request?.Query["login_challenge"];
-            if (query.HasValue)
-            {
-                StoreLoginChallenge(query);
-                return query;
-            }
-
-            if (httpContextAccessor.HttpContext?.Session.Keys.Contains("login_challenge") == true)
-            {
-                return httpContextAccessor.HttpContext?.Session.GetString("login_challenge");
-            }
-
-            return null;
-        }
+        get => httpContextAccessor.HttpContext?.Session.Keys.Contains("login_challenge") == true
+            ? httpContextAccessor.HttpContext?.Session.GetString("login_challenge")
+            : null;
+        set => StoreLoginChallenge(value);
     }
 
     public string ConsentChallenge
     {
-        get
-        {
-            var query = httpContextAccessor.HttpContext?.Request?.Query["consent_challenge"];
-            if (query.HasValue)
-            {
-                StoreConsentChallenge(query);
-                return query;
-            }
-
-            if (httpContextAccessor.HttpContext?.Session.Keys.Contains("consent_challenge") == true)
-            {
-                return httpContextAccessor.HttpContext?.Session.GetString("consent_challenge");
-            }
-
-            return null;
-        }
+        get => httpContextAccessor.HttpContext?.Session.Keys.Contains("consent_challenge") == true
+            ? httpContextAccessor.HttpContext?.Session.GetString("consent_challenge")
+            : null;
+        set => StoreConsentChallenge(value);
     }
 
     private void StoreLoginChallenge(string loginChallenge)
