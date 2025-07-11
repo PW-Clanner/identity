@@ -5,6 +5,8 @@ using Pw.Clanner.Identity;
 using Pw.Clanner.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 builder.Services.AddCors(options =>
 {
@@ -71,6 +73,7 @@ if (useOtlp)
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.UseHttpsRedirection();
+app.UseSession();
 
 app.UseCors("enableAll");
 app.MapControllers();
