@@ -72,6 +72,9 @@
         <Compile Update="Features\Hydra\AuthenticateHydraQueryController.cs">
           <DependentUpon>AuthenticateHydraQuery.cs</DependentUpon>
         </Compile>
+        <Compile Update="Features\Hydra\ConsentHydraQueryController.cs">
+          <DependentUpon>ConsentHydraQuery.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>
