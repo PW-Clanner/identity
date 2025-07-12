@@ -9,11 +9,13 @@ public class LoginHydraQueryController(ICurrentHydraChallenge hydraChallenge, IL
     : ApiControllerBase
 {
     [HttpGet("/hydra/login")]
-    public async Task<ActionResult> GetUserAudit()
+    public async Task<ActionResult> LoginHydra(LoginHydraQuery command)
     {
-        var query = HttpContext.Request.Query["consent_challenge"];
-        hydraChallenge.LoginChallenge = query;
+        var result = await Mediatr.Send(command);
 
-        return Redirect("https://auth.clanner.pw");
+        if (result)
+            return Redirect("https://auth.clanner.pw");
+
+        return BadRequest("???");
     }
 }
