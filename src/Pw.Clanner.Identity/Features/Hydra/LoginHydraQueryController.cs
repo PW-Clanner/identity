@@ -10,9 +10,9 @@ public class LoginHydraQueryController(ICurrentHydraChallenge hydraChallenge, IO
     : ApiControllerBase
 {
     [HttpGet("/hydra/login")]
-    public async Task<ActionResult> LoginHydra(LoginHydraQuery command)
+    public async Task<ActionResult> LoginHydra(LoginHydraQuery query)
     {
-        var result = await Mediatr.Send(command);
+        var result = await Mediatr.Send(query);
 
         if (result)
             return Redirect("https://auth.clanner.pw");
