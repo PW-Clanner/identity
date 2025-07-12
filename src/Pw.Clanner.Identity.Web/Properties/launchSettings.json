@@ -7,7 +7,9 @@
       "launchBrowser": false,
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ENV_App__DbConnectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=clanner-identity;Pooling=true;",
+        "ENV_Hydra__BaseUrl": ""
       }
     }
   }
