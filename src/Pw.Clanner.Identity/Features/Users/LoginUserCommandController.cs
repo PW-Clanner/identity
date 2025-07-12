@@ -14,6 +14,8 @@ public class LoginUserCommandController(
     {
         var result = await Mediatr.Send(command);
 
+        hydraChallenge.Subject = result.Success ? result.UserId : "";
+
         return Ok(result);
     }
 }

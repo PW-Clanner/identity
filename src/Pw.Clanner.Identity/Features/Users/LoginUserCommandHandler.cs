@@ -34,12 +34,7 @@ internal sealed class LoginUserCommandHandler(
         if (result)
         {
             user.DomainEvents.Add(new UserAuthorizedEvent(user));
-            var acceptResponse =
-                await oauth2ApiAsync.AcceptOAuth2LoginRequestAsync(
-                    hydraChallenge.LoginChallenge,
-                    new HydraAcceptOAuth2LoginRequest(subject: user.Id),
-                    cancellationToken: cancellationToken);
-            return new LoginUserCommandResponse(true, acceptResponse.RedirectTo);
+            return new LoginUserCommandResponse(true, user.Id);
         }
 
         await dbContext.SaveChangesAsync(cancellationToken);

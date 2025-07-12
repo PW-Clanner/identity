@@ -15,6 +15,14 @@ public class CurrentHydraChallenge(IHttpContextAccessor httpContextAccessor, ILo
         set => StoreLoginChallenge(value);
     }
 
+    public string Subject
+    {
+        get => httpContextAccessor.HttpContext?.Session.Keys.Contains("subject") == true
+            ? httpContextAccessor.HttpContext?.Session.GetString("subject")
+            : null;
+        set => StoreSubject(value);
+    }
+
     public string ConsentChallenge
     {
         get => httpContextAccessor.HttpContext?.Session.Keys.Contains("consent_challenge") == true
@@ -27,6 +35,12 @@ public class CurrentHydraChallenge(IHttpContextAccessor httpContextAccessor, ILo
     {
         logger.LogInformation("session store LoginChallenge {LoginChallenge}", loginChallenge);
         httpContextAccessor.HttpContext?.Session.SetString("login_challenge", loginChallenge);
+    }
+
+    private void StoreSubject(string subject)
+    {
+        logger.LogInformation("session store Subject {Subject}", subject);
+        httpContextAccessor.HttpContext?.Session.SetString("subject", subject);
     }
 
     private void StoreConsentChallenge(string consentChallenge)
