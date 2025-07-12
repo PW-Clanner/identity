@@ -75,5 +75,9 @@ spec:
                 secretKeyRef:
                   name: {SERVICE}-secrets
                   key: App_DbConnectionString
-                
+            - name: ENV_App__Hydra__BaseUrl
+              valueFrom:
+                secretKeyRef:
+                  name: {SERVICE}-secrets
+                  key: App_Hydra_BaseUrl
       restartPolicy: Always

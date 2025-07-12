@@ -10,11 +10,10 @@ public class LoginUserCommandController(
     ILogger<LoginUserCommandController> logger) : ApiControllerBase
 {
     [HttpPost("/api/users/login")]
-    public async Task<ActionResult<LoginUserResponse>> Login([FromBody] LoginUserCommand command)
+    public async Task<ActionResult<LoginUserCommandResponse>> Login([FromBody] LoginUserCommand command)
     {
         var result = await Mediatr.Send(command);
-        logger.LogInformation("LUCC hydra login_challenge = {@LoginChallenge}", hydraChallenge.LoginChallenge);
 
-        return Ok(new LoginUserResponse(!string.IsNullOrWhiteSpace(result)));
+        return Ok(result);
     }
 }
