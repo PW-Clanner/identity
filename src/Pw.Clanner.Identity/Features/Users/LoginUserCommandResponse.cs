@@ -1,3 +1,3 @@
 ﻿namespace Pw.Clanner.Identity.Features.Users;
 
-public record LoginUserCommandResponse(bool Success, string RedirectTo);
+public record LoginUserCommandResponse(bool Success, string UserId);
