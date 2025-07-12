@@ -13,7 +13,7 @@ public class ConsentHydraQueryController(ICurrentHydraChallenge hydraChallenge, 
     {
         hydraChallenge.ConsentChallenge = query.ConsentChallenge;
 
-        var acceptResponse = await oauth2Api.AcceptOAuth2ConsentRequestAsync(hydraChallenge.ConsentChallenge);
+        var acceptResponse = await oauth2Api.AcceptOAuth2ConsentRequestAsync(query.ConsentChallenge);
 
         return Redirect(acceptResponse.RedirectTo);
     }
