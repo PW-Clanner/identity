@@ -59,6 +59,12 @@
         <Compile Update="Features\Users\RegisterUserResponse.cs">
             <DependentUpon>RegisterUserCommand.cs</DependentUpon>
         </Compile>
+        <Compile Update="Features\Hydra\LoginHydraQueryController.cs">
+          <DependentUpon>LoginHydraQuery.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Hydra\LoginHydraQueryHandler.cs">
+          <DependentUpon>LoginHydraQuery.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>
