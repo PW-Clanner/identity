@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Ory.Hydra.Client.Api;
+using Ory.Hydra.Client.Model;
 using Pw.Clanner.Identity.Common;
 using Pw.Clanner.Identity.Common.Interfaces;
 using Pw.Clanner.Identity.Domain.Entities.Users;
@@ -9,22 +10,20 @@ using Pw.Clanner.Identity.Infrastructure.Persistence;
 namespace Pw.Clanner.Identity.Features.Users;
 
 internal sealed class LoginUserCommandHandler(
-    AppDbContext dbContext,
     ICurrentHydraChallenge hydraChallenge,
-    ILogger<LoginUserCommandHandler> logger)
-    : IRequestHandler<LoginUserCommand, string>
+    IOAuth2ApiAsync oauth2ApiAsync,
+    AppDbContext dbContext)
+    : IRequestHandler<LoginUserCommand, LoginUserCommandResponse>
 {
-    public async Task<string> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<LoginUserCommandResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("hydra login_challenge = {@LoginChallenge}", hydraChallenge.LoginChallenge);
         var userName = request.UserName.ToLower();
         var user = await dbContext.Users
             .Where(x => x.UserName.ToLower() == userName)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (user is null)
-            return null;
-
+            return new LoginUserCommandResponse(false, null);
 
         user.DomainEvents.Add(new UserIdentifiedEvent(user));
 
@@ -33,10 +32,19 @@ internal sealed class LoginUserCommandHandler(
         user.DomainEvents.Add(result ? new UserAuthenticatedEvent(user) : new UserIncorrectPasswordEvent(user));
 
         if (result)
+        {
             user.DomainEvents.Add(new UserAuthorizedEvent(user));
+            var acceptResponse =
+                await oauth2ApiAsync.AcceptOAuth2LoginRequestAsync(
+                    hydraChallenge.LoginChallenge,
+                    new HydraAcceptOAuth2LoginRequest(subject: user.Id),
+                    cancellationToken: cancellationToken);
+            return new LoginUserCommandResponse(true, acceptResponse.RedirectTo);
+        }
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return result ? user.Id : null;
+
+        return new LoginUserCommandResponse(false, null);
     }
 }

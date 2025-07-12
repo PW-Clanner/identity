@@ -20,6 +20,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.1"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.1"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
+        <PackageReference Include="Ory.Hydra.Client" Version="2.2.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -30,9 +31,6 @@
         <DependentUpon>LoginUserCommand.cs</DependentUpon>
       </Compile>
         <Compile Update="Features\Users\LoginUserCommandController.cs">
-            <DependentUpon>LoginUserCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Features\Users\LoginUserResponse.cs">
             <DependentUpon>LoginUserCommand.cs</DependentUpon>
         </Compile>
       <Compile Update="Features\Users\GetUserAuditQueryController.cs">
@@ -64,6 +62,9 @@
         </Compile>
         <Compile Update="Features\Hydra\LoginHydraQueryHandler.cs">
           <DependentUpon>LoginHydraQuery.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Features\Users\LoginUserCommandResponse.cs">
+          <DependentUpon>LoginUserCommand.cs</DependentUpon>
         </Compile>
     </ItemGroup>
 

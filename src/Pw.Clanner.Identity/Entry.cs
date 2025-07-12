@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Ory.Hydra.Client.Api;
 using Pw.Clanner.Identity.Common.Behaviours;
 using Pw.Clanner.Identity.Common.Interfaces;
 using Pw.Clanner.Identity.Infrastructure.Persistence;
@@ -23,20 +24,23 @@ public static class Entry
             options.AddOpenBehavior(typeof(PerformanceBehaviour<,>));
             options.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
         });
-
         services.AddValidatorsFromAssembly(typeof(Entry).Assembly);
 
         return services;
     }
-    
+
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration["App:DbConnectionString"];
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(connectionString));
-        
+
         services.AddScoped<IDomainEventService, DomainEventService>();
         services.AddSingleton<ICurrentHydraChallenge, CurrentHydraChallenge>();
+
+        var hydraBaseUrl = configuration["Hydra:BaseUrl"]!;
+
+        services.AddScoped<IOAuth2ApiAsync>(_ => new OAuth2Api(hydraBaseUrl));
 
         return services;
     }
