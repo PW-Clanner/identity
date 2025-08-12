@@ -20,4 +20,7 @@ RUN dotnet publish "Pw.Clanner.Identity.Web.csproj" -c $BUILD_CONFIGURATION -o /
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+ENV TZ=Europe/Moscow
+
 ENTRYPOINT ["dotnet", "Pw.Clanner.Identity.Web.dll"]
