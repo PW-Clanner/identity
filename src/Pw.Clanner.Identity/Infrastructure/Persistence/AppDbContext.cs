@@ -61,7 +61,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options, IDomainEventSe
 
     private async Task DispatchEvents(List<DomainEvent> events)
     {
-        foreach (var @event in events)
+        foreach (var @event in events.Where(@event => !@event.IsPublished))
         {
             @event.IsPublished = true;
             await _domainEventService.Publish(@event);

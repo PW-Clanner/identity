@@ -27,9 +27,22 @@ public class User : EntityBase, IHasDomainEvent
     public DateTime LastLogin { get; set; }
     
     /// <summary>
+    /// Дата и время блокировки
+    /// </summary>
+    public DateTime? LockoutUntil { get; set; }
+    
+    /// <summary>
+    /// Причина блокировки
+    /// </summary>
+    public string LockoutReason { get; set; }
+
+    /// <summary>
     /// Аудит
     /// </summary>
-    public List<UserAudit> Audits { get; set; }
+    public List<UserAudit> Audits { get; set; } = [];
 
+    /// <summary>
+    /// Доменные события
+    /// </summary>
     public List<DomainEvent> DomainEvents { get; } = [];
 }
