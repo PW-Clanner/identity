@@ -25,21 +25,18 @@ internal sealed class LoginUserCommandHandler(
         if (user is null)
             return new LoginUserCommandResponse(false, null);
 
+        if (DateTime.Now < user.LockoutUntil)
+            return new LoginUserCommandResponse(false, null);
+
         user.DomainEvents.Add(new UserIdentifiedEvent(user));
 
         var result = user.VerifyPasswordHash(request.Password);
 
         user.DomainEvents.Add(result ? new UserAuthenticatedEvent(user) : new UserIncorrectPasswordEvent(user));
-
-        if (result)
-        {
-            user.DomainEvents.Add(new UserAuthorizedEvent(user));
-            return new LoginUserCommandResponse(true, user.Id);
-        }
-
         await dbContext.SaveChangesAsync(cancellationToken);
 
-
-        return new LoginUserCommandResponse(false, null);
+        return result
+            ? new LoginUserCommandResponse(true, user.Id)
+            : new LoginUserCommandResponse(false, null);
     }
 }

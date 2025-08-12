@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -27,7 +28,13 @@ builder.Services.AddCors(options =>
 
 builder.Configuration.AddEnvironmentVariables("ENV_");
 
-builder.Services.AddControllers(options => { options.Filters.Add<ApiFilter>(); });
+builder.Services
+    .AddControllers(options => { options.Filters.Add<ApiFilter>(); })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 

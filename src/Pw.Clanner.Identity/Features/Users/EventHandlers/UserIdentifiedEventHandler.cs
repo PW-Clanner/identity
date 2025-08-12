@@ -19,7 +19,7 @@ internal sealed class UserIdentifiedEventHandler(ILogger<UserIdentifiedEventHand
         var audit = new UserAudit
         {
             User = domainEvent.User,
-            Type = UserAuditType.Login
+            Type = UserAuditType.Identified
         };
 
         await dbContext.UserAudits.AddAsync(audit, cancellationToken);
