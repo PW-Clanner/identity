@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Logging;
 using Pw.Clanner.Identity.Common;
 using Pw.Clanner.Identity.Common.Interfaces;
@@ -10,6 +11,7 @@ public class LoginUserCommandController(
     ILogger<LoginUserCommandController> logger) : ApiControllerBase
 {
     [HttpPost("/api/users/login")]
+    [EnableRateLimiting("fixed")]
     public async Task<ActionResult<LoginUserCommandResponse>> Login([FromBody] LoginUserCommand command)
     {
         var result = await Mediatr.Send(command);

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.RateLimiting;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -48,6 +49,14 @@ builder.Services.AddHttpContextAccessor();
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
+
+builder.Services.AddRateLimiter(options => {
+    options.AddFixedWindowLimiter("Fixed", opt => {
+        opt.Window = TimeSpan.FromSeconds(3);
+        opt.PermitLimit = 3;
+    });
+    options.RejectionStatusCode = 429;
+});
 
 var useOtlp = builder.Configuration.GetValue<bool>("Jaeger:Enabled");
 
